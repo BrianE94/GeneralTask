@@ -9,6 +9,8 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+###General preparation for the task
+
 ## Step 1: Install and load packages
 ```{r, echo = TRUE}
 install.packages("data.table")
@@ -16,14 +18,40 @@ install.packages("data.table")
 library(utils, data.table)
 ```
 
-## Step 2: Import Data
+## Step 2: Import Data considering all exercices in General_Tasks
 ```{r, echo = TRUE} 
 #Komponente_K7 <- read.table("Komponente_K7.csv")
 #Logistics_delay_K7 <- read.table("Logistics_delay_K7")
+#Zulassungen_alle_Fahrzeuge <- read.?("Zulassungen_alle_Fahrzeuge")
+
+#Bestandteile_Fahrzeuge_OEM1_Typ11 <- read.?("Bestandteile_Fahrzeuge_OEM1_Typ11")
+
+#Bestandteile_Fahrzeuge_OEM1_Typ12 <- read.?("Bestandteile_Fahrzeuge_OEM1_Typ12")
+
+#Bestandteile_Fahrzeuge_OEM2_Typ21 <- read.?("Bestandteile_Fahrzeuge_OEM2_Typ21") 
+
+#Bestandteile_Fahrzeuge_OEM2_Typ22 <- read.?("Bestandteile_Fahrzeuge_OEM2_Typ22")
+
 ```
 
-## Step3: 
+
+### Task 1
+
+## Step 1: Overview
 ```{r, include = TRUE}
 #head(Komponente_K7)
 #head(Logistics_delay_K7)
 ```
+
+
+
+### Task 2
+
+# Why does it make sense to store the available data in separate files instead of saving everything in a huge table? Name at least four benefits. The available tables represent a typical data base structure. How is it called?
+
+The benefits are the reduction of the loading time of the imported data and the reduction of the high working memory consumption. It also avoids redundancy in big tables, as usually some values appear several times in the table/(spreadsheet). The searching time for exact figures/numbers in the table is therefore also reduced, as  
+
+
+
+
+The typical data base structure is called relational database system. 
