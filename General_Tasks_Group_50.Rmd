@@ -36,7 +36,7 @@ library(plotly)
 ### Step 2: Import data 
 All necessary CSV files are going to be imported. 
 ```{r, message=FALSE, warning=FALSE} 
-komponente_k7 <- read_csv("Data/Logistikverzug/Komponente_K7.csv")
+komponente_k7 <- read_csv2("Data/Logistikverzug/Komponente_K7.csv")
 logistikverzug_k7 <- read_csv("Data/Logistikverzug/Logistics_delay_K7.csv")
 
 #Zulassungen_alle_Fahrzeuge <- read_csv("Zulassungen_alle_Fahrzeuge")
