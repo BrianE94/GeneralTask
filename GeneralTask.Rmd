@@ -1,8 +1,9 @@
 ---
 title: "General_Tasks_Group_50"
 author: "Long Dinh, Jonas Rieger, André Düding, Brian Eiffert, Vanessa Schweitzer"
-date: "30 07 2020"
+date: "SoSe 2020, 30/07/2020"
 output: html_document
+  toc: true
 ---
 
 ```{r setup, include=FALSE}
@@ -11,38 +12,51 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Data Preparation
 
-## Step 1: Install and load necessary packages
-```{r}
+## Step 1: Installing and loading necessary packages
+```{r, message=FALSE, warning=FALSE}
 install.packages("readr")
 library(readr)
 
-install.packages("plotly")
-library(plotly)
+install.packages("dplyr")
+library(dplyr)
+
+install.packages("lubridate")
+library(lubridate)
+
+#install.packages("plotly")
+#library(plotly)
 ```
 
 ## Step 2: Import data 
 ```{r, echo=FALSE} 
-
-Komponente_K7 <- read_csv("Komponente_K7.csv")
-Logistikverzug_K7 <- read_delim("Logistics_delay_K7.csv", delim=",")
-
-#Zulassungen_alle_Fahrzeuge <- read.?("Zulassungen_alle_Fahrzeuge")
-#Bestandteile_Fahrzeuge_OEM1_Typ11 <- read.?("Bestandteile_Fahrzeuge_OEM1_Typ11")
-#Bestandteile_Fahrzeuge_OEM1_Typ12 <- read.?("Bestandteile_Fahrzeuge_OEM1_Typ12")
-#Bestandteile_Fahrzeuge_OEM2_Typ21 <- read.?("Bestandteile_Fahrzeuge_OEM2_Typ21") 
-#Bestandteile_Fahrzeuge_OEM2_Typ22 <- read.?("Bestandteile_Fahrzeuge_OEM2_Typ22")
+#Importing flat CSV files
+komponente_k7 <- read_csv("Data/Logistikverzug/Komponente_K7.csv")
+logistikverzug_k7 <- read_csv("Data/Logistikverzug/Logistics_delay_K7.csv")
 
 ```
 ## Step 3: Tidy data 
 ```{r, echo=FALSE}
+#Exploring the data attributes
+class(komponente_k7)
+class(logistikverzug_k7)
+head(komponente_k7)
+head(logistikverzug_k7)
+glimpse(komponente_k7)
+glimpse(logistikverzug_k7)
+summary(komponente_k7)
+summary(logistikverzug_k7)
+
+#Preparing data: coercing strings to dates with lubridate function
 
 ```
 
 ## Step 4: Transform data 
-```{r, echo=FALSE}
+```{r, message=FALSE}
 #Creation of new data set "Logistics delay" that contains the required information from both data sets
+logistics_delay <- inner_join(komponente_k7, logistikverzug_k7, by="IDNummer") %>%
+  select(IDNummer, Produktionsdatum, Wareneingang) %>%
+  mutate(Logistikverzug = as.numeric(difftime(Wareneingang, Produktionsdatum, units="days")))
 ```
-
 
 # Task 1
 
