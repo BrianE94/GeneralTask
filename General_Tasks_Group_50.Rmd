@@ -20,8 +20,8 @@ library(readr)
 install.packages("dplyr")
 library(dplyr)
 
-#install.packages("plotly")
-#library(plotly)
+install.packages("plotly")
+library(plotly)
 ```
 
 ### Step 2: Import data 
@@ -29,6 +29,12 @@ All necessary CSV files are going to be imported.
 ```{r, message=FALSE, warning=FALSE} 
 komponente_k7 <- read_csv("Data/Logistikverzug/Komponente_K7.csv")
 logistikverzug_k7 <- read_csv("Data/Logistikverzug/Logistics_delay_K7.csv")
+
+#Zulassungen_alle_Fahrzeuge <- read_csv("Zulassungen_alle_Fahrzeuge")
+#Bestandteile_Fahrzeuge_OEM1_Typ11 <- read_csv("Bestandteile_Fahrzeuge_OEM1_Typ11")
+#Bestandteile_Fahrzeuge_OEM1_Typ12 <- read_csv("Bestandteile_Fahrzeuge_OEM1_Typ12")
+#Bestandteile_Fahrzeuge_OEM1_Typ21 <- read_csv("Bestandteile_Fahrzeuge_OEM1_Typ21")
+#Bestandteile_Fahrzeuge_OEM1_Typ22 <- read_csv("Bestandteile_Fahrzeuge_OEM1_Typ22")
 ```
 
 ### Step 3: Tidy data 
@@ -71,7 +77,7 @@ logistics_delay <- inner_join(komponente_k7, logistikverzug_k7, by="IDNummer") %
 
 **Why does it make sense to store the available data in separate files instead of saving everything in a huge table? Name at least four benefits. The available tables represent a typical data base structure. How is it called?**
 
-The benefits are the reduction of the loading time of the imported data and the reduction of the high working memory consumption. It also avoids redundancy in big tables, as usually some values appear several times in the table/(spreadsheet). The searching time for exact figures/numbers in the table is therefore also reduced.
+The benefits are the reduction of the loading time of the imported data and the reduction of the high working memory consumption. It also avoids redundancy in big tables, as usually some values appear several times in the table/(spreadsheet). The searching time (duration) for exact figures/numbers in the table is therefore also reduced, as it is itself smaller and more compact.
 
 The typical data base structure is called relational database system. 
 
@@ -84,8 +90,23 @@ The typical data base structure is called relational database system.
 **Which data types do the attributes of the registration table "Zulassungen_aller_Fahrzeuge" have? Put your answers into a table which is integrated into your Markdown document.**
 
 # Task 5
+### Subtask a
+**You want to publish your application. Why does it make sense to store the data sets in a database on a server?** 
 
-**You want to publish your application. Why does it make sense to store the data sets in a database on a server? Why is it not recommended to store the data sets on your personal computer? Name at least three points per question.**
+A server is available 24/7.
+
+A server usually has hardware based a lot more computing power than local computers. Technical issues like overcapacities can be avoided. 
+
+Apart from the computing power, servers usually also provide more storage than local computers. The necessary data can have a larger size. Also redundancies can be installed as an additional safety measure. 
+
+### Subtask b
+**Why is it not recommended to store the data sets on your personal computer? Name at least three points per question.**
+
+It is not recommended to store the data sets on your computer because of the limited accessibility it entails. Your personal device is (supposely) not available 24/7 per day. 
+
+Furthermore, external access from other users perspective is not possible/doable, no application could be run on other devices/computers.
+
+The amount of data combined with the analysis based data requires a lot of memory capacity. Local computers (depending on the hardware) might not be able to process it.
 
 # Task 6
 
