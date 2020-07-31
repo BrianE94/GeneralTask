@@ -2,8 +2,10 @@
 title: "General_Tasks_Group_50"
 author: "Long Dinh, Jonas Rieger, André Düding, Brian Eiffert, Vanessa Schweitzer"
 date: "SoSe 2020, 31/07/2020"
-output: html_document
-  toc: true
+output: 
+  html_document:
+    theme: paper
+    toc: true
 ---
 
 ```{r setup, include=FALSE}
@@ -12,15 +14,22 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Data Preparation
 
-### Step 1: Installing packages and loading libraries
+### Step 1: Installing packages and loading libraries.
+If function is necessary because of error messages. 
 ```{r, message=FALSE, warning=FALSE}
-install.packages("readr")
+if(!require(readr)){
+  install.packages("readr")
+}
 library(readr)
 
-install.packages("dplyr")
+if(!require(dplyr)){
+  install.packages("dplyr")
+}
 library(dplyr)
 
-install.packages("plotly")
+if(!require(plotly)){
+  install.packages("plotly")
+}
 library(plotly)
 ```
 
