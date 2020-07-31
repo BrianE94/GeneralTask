@@ -1,7 +1,7 @@
 ---
 title: "General_Tasks_Group_50"
 author: "Long Dinh, Jonas Rieger, André Düding, Brian Eiffert, Vanessa Schweitzer"
-date: "SoSe 2020, 30/07/2020"
+date: "SoSe 2020, 31/07/2020"
 output: html_document
   toc: true
 ---
@@ -12,7 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Data Preparation
 
-## Step 1: Installing and loading necessary packages
+### Step 1: Installing packages and loading libraries
 ```{r, message=FALSE, warning=FALSE}
 install.packages("readr")
 library(readr)
@@ -20,52 +20,50 @@ library(readr)
 install.packages("dplyr")
 library(dplyr)
 
-install.packages("lubridate")
-library(lubridate)
-
-#install.packages("plotly")
-#library(plotly)
+install.packages("plotly")
+library(plotly)
 ```
 
-## Step 2: Import data 
-```{r, echo=FALSE} 
-#Importing flat CSV files
+### Step 2: Import data 
+All necessary CSV files are going to be imported. 
+```{r, message=FALSE, warning=FALSE} 
 komponente_k7 <- read_csv("Data/Logistikverzug/Komponente_K7.csv")
 logistikverzug_k7 <- read_csv("Data/Logistikverzug/Logistics_delay_K7.csv")
-
 ```
-## Step 3: Tidy data 
-```{r, echo=FALSE}
-#Exploring the data attributes
-class(komponente_k7)
-class(logistikverzug_k7)
+
+### Step 3: Tidy data 
+It is imperative to the data analytics process to fully understand the structure of the data in order to draw reliable and true conclusions from the data.   
+
+```{r, message=FALSE, warning=FALSE}
 head(komponente_k7)
 head(logistikverzug_k7)
 glimpse(komponente_k7)
 glimpse(logistikverzug_k7)
 summary(komponente_k7)
 summary(logistikverzug_k7)
-
-#Preparing data: coercing strings to dates with lubridate function
-
 ```
 
-## Step 4: Transform data 
+After further analysis, both data sets meet the three principles of tidy data: observations as rows, variables as columns and one type of observational unit per table.
+
+# Task 1
+Creation of new data set "Logistics delay" that contains the required information from both data sets to calculate the logistics delay between the receiving date of incoming goods and the production date.
+
 ```{r, message=FALSE}
-#Creation of new data set "Logistics delay" that contains the required information from both data sets
 logistics_delay <- inner_join(komponente_k7, logistikverzug_k7, by="IDNummer") %>%
   select(IDNummer, Produktionsdatum, Wareneingang) %>%
   mutate(Logistikverzug = as.numeric(difftime(Wareneingang, Produktionsdatum, units="days")))
 ```
 
-# Task 1
-
+### Subtask a
 **How is the logistics delay distributed? Proof your selection by statistical tests and briefly describe your approach.**
 
+### Subtask b
 **What is the minimum/maximum time between delivering and receiving goods?**
 
+### Subtask c
 **Determine the mean of the logistics delay.**
 
+### Subtask d
 **Visualize the distribution in an appropriate way by displaying a histogram and the density function using the package plotly.**
 
 
