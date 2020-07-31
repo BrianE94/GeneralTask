@@ -74,6 +74,7 @@ Creation of new data set "Logistics delay" that contains the required informatio
 logistics_delay <- inner_join(komponente_k7, logistikverzug_k7, by="IDNummer") %>%
   select(IDNummer, Produktionsdatum, Wareneingang) %>%
   mutate(Logistikverzug = as.numeric(difftime(Wareneingang, Produktionsdatum, units="days")))
+verzugstage <- logistics_delay$Logistikverzug
 ```
 
 ### Subtask a
