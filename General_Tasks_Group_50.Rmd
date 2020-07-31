@@ -22,6 +22,11 @@ if(!require(readr)){
 }
 library(readr)
 
+if(!require(magrittr)){
+  install.packages("magrittr")
+}
+library(magrittr)
+
 if(!require(dplyr)){
   install.packages("dplyr")
 }
@@ -36,8 +41,10 @@ library(plotly)
 ### Step 2: Import data 
 All necessary CSV files are going to be imported. 
 ```{r, message=FALSE, warning=FALSE} 
-komponente_k7 <- read_csv2("Data/Logistikverzug/Komponente_K7.csv")
-logistikverzug_k7 <- read_csv("Data/Logistikverzug/Logistics_delay_K7.csv")
+komponente_k7 <- read_delim("Data/Logistikverzug/Komponente_K7.csv", delim=";")%>%
+  select(-X1)
+logistikverzug_k7 <- read_csv("Data/Logistikverzug/Logistics_delay_K7.csv")%>%
+  select(-X1)
 
 #Zulassungen_alle_Fahrzeuge <- read_csv("Zulassungen_alle_Fahrzeuge")
 #Bestandteile_Fahrzeuge_OEM1_Typ11 <- read_csv("Bestandteile_Fahrzeuge_OEM1_Typ11")
