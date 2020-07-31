@@ -20,8 +20,8 @@ library(readr)
 install.packages("dplyr")
 library(dplyr)
 
-install.packages("plotly")
-library(plotly)
+#install.packages("plotly")
+#library(plotly)
 ```
 
 ### Step 2: Import data 
