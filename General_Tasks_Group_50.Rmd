@@ -98,7 +98,7 @@ head(verzugstage)
 #### Subtask a
 **Why does it make sense to store the available data in separate files instead of saving everything in a huge table? Name at least four benefits.**
 
-The benefits are the reduction of the loading time of the imported data and the reduction of the high working memory consumption. It also avoids redundancy in big tables, as usually some values appear several times in the table/(spreadsheet). The searching time (duration) for exact figures/numbers in the table is therefore also reduced, as it is itself smaller and more compact.
+The benefits are the reduction of the loading time of the imported data and the reduction of the high working memory consumption. It also avoids redundancy in big tables, as usually some values appear several times in the table/spreadsheet. The searching time (duration) for exact figures/numbers in the table is therefore also reduced, as it is itself smaller and more compact.
 
 #### Subtask b
 **The available tables represent a typical data base structure. How is it called?**
@@ -119,7 +119,7 @@ The typical data base structure is called relational database system.
 
 A server is available 24/7.
 
-A server usually has hardware based a lot more computing power than local computers. Technical issues like overcapacities can be avoided. 
+A server usually has hardware-based a lot more computing power than local computers. Technical issues like overcapacities can be avoided. 
 
 Apart from the computing power, servers usually also provide more storage than local computers. The necessary data can have a larger size. Also redundancies can be installed as an additional safety measure. 
 
@@ -128,9 +128,9 @@ Apart from the computing power, servers usually also provide more storage than l
 
 It is not recommended to store the data sets on your computer because of the limited accessibility it entails. Your personal device is (supposely) not available 24/7 per day. 
 
-Furthermore, external access from other users perspective is not possible/doable, no application could be run on other devices/computers.
+Furthermore, external access from other users are not possible. No application can be run on other devices/computers.
 
-The amount of data combined with the analysis based data requires a lot of memory capacity. Local computers (depending on the hardware) might not be able to process it.
+The amount of data combined with the data analysis require huge memory capacity. Local computers (depending on the hardware) might not be able to process it.
 
 # Task 6
 
