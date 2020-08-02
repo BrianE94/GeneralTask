@@ -83,7 +83,7 @@ head(verzugstage)
 
 #### Subtask a
 **How is the logistics delay distributed? Proof your selection by statistical tests and briefly describe your approach.**
-#ss
+
 
 #### Subtask b
 **What is the minimum/maximum time between delivering and receiving goods?**
