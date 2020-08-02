@@ -21,17 +21,14 @@ if(!require(readr)){
   install.packages("readr")
 }
 library(readr)
-
 if(!require(magrittr)){
   install.packages("magrittr")
 }
 library(magrittr)
-
 if(!require(dplyr)){
   install.packages("dplyr")
 }
 library(dplyr)
-
 if(!require(plotly)){
   install.packages("plotly")
 }
@@ -45,7 +42,6 @@ komponente_k7 <- read_delim("Data/Logistikverzug/Komponente_K7.csv", delim=";")%
   select(-X1)
 logistikverzug_k7 <- read_csv("Data/Logistikverzug/Logistics_delay_K7.csv")%>%
   select(-X1)
-
 #Zulassungen_alle_Fahrzeuge <- read_csv("Zulassungen_alle_Fahrzeuge")
 #Bestandteile_Fahrzeuge_OEM1_Typ11 <- read_csv("Bestandteile_Fahrzeuge_OEM1_Typ11")
 #Bestandteile_Fahrzeuge_OEM1_Typ12 <- read_csv("Bestandteile_Fahrzeuge_OEM1_Typ12")
@@ -75,7 +71,6 @@ logistics_delay <- inner_join(komponente_k7, logistikverzug_k7, by="IDNummer") %
   select(IDNummer, Produktionsdatum, Wareneingang) %>%
   mutate(Logistikverzug = as.numeric(difftime(Wareneingang, Produktionsdatum, units="days")))
 verzugstage <- logistics_delay$Logistikverzug
-
 glimpse(logistics_delay)
 head(logistics_delay)
 head(verzugstage)
