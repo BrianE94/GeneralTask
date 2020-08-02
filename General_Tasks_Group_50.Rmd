@@ -78,7 +78,11 @@ head(verzugstage)
 
 #### Subtask a
 **How is the logistics delay distributed? Proof your selection by statistical tests and briefly describe your approach.**
-##
+In order to get an overview about the data distribution of logistics delay, we visualize the data by plotting a histogram.
+
+```{r}
+hist(verzugstage, breaks=10, main="Histogram of Logistics Delay", xlab="Logistics delay in days", xlim=c(6,18))
+```
 
 #### Subtask b
 **What is the minimum/maximum time between delivering and receiving goods?**
