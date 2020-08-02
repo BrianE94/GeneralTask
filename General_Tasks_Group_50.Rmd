@@ -70,7 +70,7 @@ summary(logistikverzug_k7)
 # Task 1
 Creation of new data set "logistics_delay" that contains the required information from both data sets to calculate the logistics delay between the receiving date of incoming goods and the production date, which is stored in the variable "verzugstage".
 
-```{r, message=FALSE}
+```{r, message=FALSE, warning=FALSE}
 logistics_delay <- inner_join(komponente_k7, logistikverzug_k7, by="IDNummer") %>%
   select(IDNummer, Produktionsdatum, Wareneingang) %>%
   mutate(Logistikverzug = as.numeric(difftime(Wareneingang, Produktionsdatum, units="days")))
@@ -84,11 +84,24 @@ head(verzugstage)
 #### Subtask a
 **How is the logistics delay distributed? Proof your selection by statistical tests and briefly describe your approach.**
 
+
 #### Subtask b
 **What is the minimum/maximum time between delivering and receiving goods?**
 
+```{r}
+max(verzugstage)
+min(verzugstage)
+```
+The minimum/maximum time between delivering and receiving goods are the minimum/maximum days of logistics delay. Hence, the minimum time is `r min(verzugstage)` days and the maximum time is `r max(verzugstage)` days.
+
 #### Subtask c
 **Determine the mean of the logistics delay.**
+
+```{r}
+mean_logistics_delay <- round(mean(verzugstage),1)
+mean_logistics_delay
+```
+The mean of the logistics delay is `r mean_logistics_delay` days.
 
 #### Subtask d
 **Visualize the distribution in an appropriate way by displaying a histogram and the density function using the package plotly.**
