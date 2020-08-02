@@ -78,10 +78,18 @@ head(verzugstage)
 
 #### Subtask a
 **How is the logistics delay distributed? Proof your selection by statistical tests and briefly describe your approach.**
+
 In order to get an overview about the data distribution of logistics delay, we visualize the data by plotting a histogram.
 
 ```{r}
 hist(verzugstage, breaks=10, main="Histogram of Logistics Delay", xlab="Logistics delay in days", xlim=c(6,18))
+```
+
+The histogram suggests a normal distribution. Q-Q plots are used to verify this assumption. For reference, check [this] (https://data.library.virginia.edu/understanding-q-q-plots/#). 
+
+```{r}
+qqnorm(scale(verzugstage))  
+qqline(scale(verzugstage))
 ```
 
 #### Subtask b
