@@ -36,13 +36,15 @@ library(plotly)
 ```
 
 ### Step 2: Import data 
-All necessary CSV files are going to be imported. Note that the first column of each CSV file import needs to be removed to get uniform datasets. 
+All necessary CSV files are going to be imported. Note that the first column of most CSV file imports need to be removed to get uniform datasets. 
 ```{r, message=FALSE, warning=FALSE} 
 komponente_k7 <- read_delim("Data/Logistikverzug/Komponente_K7.csv", delim=";")%>%
   select(-X1)
 logistikverzug_k7 <- read_csv("Data/Logistikverzug/Logistics_delay_K7.csv")%>%
   select(-X1)
-#Zulassungen_alle_Fahrzeuge <- read_csv("Zulassungen_alle_Fahrzeuge")
+
+zulassungen_alle_Fahrzeuge <- read_delim("Data/Zulassungen/Zulassungen_alle_Fahrzeuge.csv", delim=";")
+
 #Bestandteile_Fahrzeuge_OEM1_Typ11 <- read_csv("Bestandteile_Fahrzeuge_OEM1_Typ11")
 #Bestandteile_Fahrzeuge_OEM1_Typ12 <- read_csv("Bestandteile_Fahrzeuge_OEM1_Typ12")
 #Bestandteile_Fahrzeuge_OEM1_Typ21 <- read_csv("Bestandteile_Fahrzeuge_OEM1_Typ21")
@@ -88,9 +90,14 @@ hist(verzugstage, breaks=10, main="Histogram of Logistics Delay", xlab="Logistic
 The histogram suggests a normal distribution. Q-Q plots are used to verify this assumption. For reference, check [this] (https://data.library.virginia.edu/understanding-q-q-plots/#). 
 
 ```{r}
-qqnorm(scale(verzugstage))  
-qqline(scale(verzugstage))
+qqnorm(verzugstage)  
+qqline(verzugstage)
 ```
+
+The normal Q-Q plot shows that the points are not on a straight line. 
+Therefore, both sets of quantiles are not normal distributed.
+
+It is necessary to find out which distribution model fits the data best. 
 
 #### Subtask b
 **What is the minimum/maximum time between delivering and receiving goods?**
@@ -113,6 +120,19 @@ The mean of the logistics delay is `r mean_logistics_delay` days.
 #### Subtask d
 **Visualize the distribution in an appropriate way by displaying a histogram and the density function using the package plotly.**
 
+Histogram visualization according to [plotly.com](https://plotly.com/r/histograms/).
+
+```{r, message=FALSE, warning=FALSE}
+
+fig <- plot_ly(
+  x = ~verzugstage, type = "histogram"
+)
+
+fig
+
+#Verteilung muss erst herausgefunden werden!
+
+```
 
 # Task 2
 #### Subtask a
@@ -132,6 +152,17 @@ The typical data base structure is called relational database system.
 # Task 4
 
 **Which data types do the attributes of the registration table "Zulassungen_aller_Fahrzeuge" have? Put your answers into a table which is integrated into your Markdown document.**
+
+To get an overview about the data structure and the data types of the attributes we explore the raw data by applying str(). 
+
+```{r, message=FALSE, warning=FALSE}
+str(zulassungen_alle_Fahrzeuge)
+```
+
+The data types of the attributes of the registration table are as following:
+
+"X1" = `numeric`, "IDNummer" = `character`, "Gemeinden" = `character` and "Zulassung" = `date`. 
+
 
 # Task 5
 #### Subtask a
