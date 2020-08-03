@@ -16,20 +16,23 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ### Step 1: Installing packages and loading libraries
 
-If-function is necessary, otherwise error messages would pop up. 
+If-function is necessary, otherwise error messages would pop up.
 ```{r, message=FALSE, warning=FALSE}
 if(!require(readr)){
   install.packages("readr")
 }
 library(readr)
+
 if(!require(magrittr)){
   install.packages("magrittr")
 }
 library(magrittr)
+
 if(!require(dplyr)){
   install.packages("dplyr")
 }
 library(dplyr)
+
 if(!require(plotly)){
   install.packages("plotly")
 }
@@ -67,12 +70,10 @@ It is imperative to the data analytics process to fully understand the structure
 After further analysis, both data sets meet the three principles of tidy data: observations as rows, variables as columns and one type of observational unit per table.
 
 ```{r, message=FALSE, warning=FALSE}
-head(komponente_k7)
-head(logistikverzug_k7)
 glimpse(komponente_k7)
 glimpse(logistikverzug_k7)
-summary(komponente_k7)
-summary(logistikverzug_k7)
+head(komponente_k7)
+head(logistikverzug_k7)
 ```
 
 # Task 1
@@ -146,10 +147,11 @@ fig
 ```
 
 # Task 2
+
 #### Subtask a
 **Why does it make sense to store the available data in separate files instead of saving everything in a huge table? Name at least four benefits.**
 
-The benefits are the reduction of the loading time of the imported data and the reduction of the high working memory consumption. It also avoids redundancy in big tables, as usually some values appear several times in the table/spreadsheet. The searching time (duration) for exact figures/numbers in the table is therefore also reduced, as it is itself smaller and more compact.
+The benefits are the reduction of the loading time of the imported data and the reduction of the high working memory consumption. It also avoids redundancy in big tables, as usually some values appear several times in the table/spreadsheet. The search time (duration) for exact figures/numbers in the table is therefore also reduced, as it is itself smaller and more compact.
 
 #### Subtask b
 **The available tables represent a typical data base structure. How is it called?**
@@ -160,16 +162,15 @@ The typical data base structure is called relational database system.
 
 **How many of the parts T4 ended up in vehicles registered in the city of Dortmund?**
 
-In order to find the parts T4 which ended up in vehicles registered in the city of Dortmund, we filtered the cars according to this municipality. 
-Then we linked all components that have been installed in vehicles together in one table. Furthermore, we joined both tables combining all registered vehicles in Dortmund with the engine component. Finally, we filtered for all engines K1BE1, which all include the T4 part, that are also assembled in vehicles registered in Dortmund. 
+In order to find the parts T4, which ended up in vehicles registered in the city of Dortmund, we filtered the cars according to this municipality. Then, we linked all components that have been installed in vehicles together in one table. Furthermore, we joined both tables combining all registered vehicles in Dortmund with the engine component. Finally, we filtered for all engines K1BE1, which all include the T4 part, that are also assembled in vehicles registered in Dortmund. 
 
 ```{r}
-# At first, we filter for all the vehicles registered in Dortmund.
+# At first, we filter for all the vehicles registered in Dortmund
 
 zulassungen_dortmund <- zulassungen_alle_fahrzeuge %>%
   filter(Gemeinden=="DORTMUND")
 
-# After filtering the registered vehicles in the city of Dortmund, we select the car "IDNummer" within all the produced vehicles and the "ID_Motor" because T4 is part of the engine. 
+# After filtering the registered vehicles in the city of Dortmund, we select the car "IDNummer" within all the produced vehicles and the "ID_Motor" because T4 is part of the engine
 
 bestandteile_fahrzeuge_alle <- bind_rows(bestandteile_fahrzeuge_oem1_typ11, bestandteile_fahrzeuge_oem1_typ12, bestandteile_fahrzeuge_oem1_typ21, bestandteile_fahrzeuge_oem1_typ22) %>%
   select(ID_Motor, ID_Fahrzeug)
@@ -183,7 +184,7 @@ zulassungen_dortmund_bestandteile_fahrzeuge_alle <- inner_join(zulassungen_dortm
 t4_bestandteile_fahrzeuge_alle_dortmund <- inner_join(bestandteile_komponente_k1be1, zulassungen_dortmund_bestandteile_fahrzeuge_alle, by = c("ID_K1BE1" = "ID_Motor"))
 ```
 
-In total `r nrow(t4_bestandteile_fahrzeuge_alle_dortmund)` T4 parts ended up in vehicles registered in the city of Dortmund. 
+In total, `r nrow(t4_bestandteile_fahrzeuge_alle_dortmund)` T4 parts ended up in vehicles registered in the city of Dortmund. 
 
 # Task 4
 
@@ -225,5 +226,19 @@ The amount of data combined with the data analysis require huge memory capacity.
 **On 11 August 2019 there was an accident involving a stolen car produced by your company. The driver left the scene without a trace. The license plate of the car, which caused the accident, was faked and the Vehicle Identification Number (VIN) was removed. Since you work for the Federal Motor Transport Authority, the police asks for your help to find out where the vehicle with the engine code "K1DI2-103-1031-21" (corresponds to the engine ID number) was registered.**
 
 ```{r}
-#The vehicle with the engine code/ID number "K1DI2-103-1031-21" was registered in `r #location`.
+#
+
+id_motor_k1di2_103_1031_21 <- bind_rows(bestandteile_fahrzeuge_oem1_typ11, bestandteile_fahrzeuge_oem1_typ12, bestandteile_fahrzeuge_oem1_typ21, bestandteile_fahrzeuge_oem1_typ22)%>%
+  select(ID_Motor, ID_Fahrzeug)%>%
+    filter(ID_Motor=="K1DI2-103-1031-21")
+
+#
+
+zulassungen_id_motor <- left_join(zulassungen_alle_fahrzeuge, id_motor_k1di2_103_1031_21, by=c("IDNummer"="ID_Fahrzeug"))
+
+#
+
+location <- zulassungen_id_motor$Gemeinden
 ```
+
+The vehicle with the engine code/ID number "K1DI2-103-1031-21" was registered in `r location`.
