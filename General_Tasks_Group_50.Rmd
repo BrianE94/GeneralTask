@@ -63,18 +63,7 @@ bestandteile_komponente_k1be1 <- read_delim("Data/Komponente/Bestandteile_Kompon
   select(-X1)
 ```
 
-### Step 3: Tidy data 
-
-It is imperative to the data analytics process to fully understand the structure of the data in order to draw reliable and true conclusions from the data.   
-
-After further analysis, both data sets meet the three principles of tidy data: observations as rows, variables as columns and one type of observational unit per table.
-
-```{r, message=FALSE, warning=FALSE}
-glimpse(komponente_k7)
-glimpse(logistikverzug_k7)
-head(komponente_k7)
-head(logistikverzug_k7)
-```
+After further analysis, all data sets meet the three principles of tidy data: observations as rows, variables as columns and one type of observational unit per table.
 
 # Task 1
 
@@ -166,21 +155,17 @@ In order to find the parts T4, which ended up in vehicles registered in the city
 
 ```{r}
 # At first, we filter for all the vehicles registered in Dortmund
-
 zulassungen_dortmund <- zulassungen_alle_fahrzeuge %>%
   filter(Gemeinden=="DORTMUND")
 
 # After filtering the registered vehicles in the city of Dortmund, we select the car "IDNummer" within all the produced vehicles and the "ID_Motor" because T4 is part of the engine
-
 bestandteile_fahrzeuge_alle <- bind_rows(bestandteile_fahrzeuge_oem1_typ11, bestandteile_fahrzeuge_oem1_typ12, bestandteile_fahrzeuge_oem1_typ21, bestandteile_fahrzeuge_oem1_typ22) %>%
   select(ID_Motor, ID_Fahrzeug)
 
 # Joining all registered vehicles in Dortmund with the component engine list
-
 zulassungen_dortmund_bestandteile_fahrzeuge_alle <- inner_join(zulassungen_dortmund, bestandteile_fahrzeuge_alle, by=c("IDNummer" = "ID_Fahrzeug"))
 
 # T4 only appears to be a part of the component engine K1BE1.
-
 t4_bestandteile_fahrzeuge_alle_dortmund <- inner_join(bestandteile_komponente_k1be1, zulassungen_dortmund_bestandteile_fahrzeuge_alle, by = c("ID_K1BE1" = "ID_Motor"))
 ```
 
@@ -225,19 +210,18 @@ The amount of data combined with the data analysis require huge memory capacity.
 
 **On 11 August 2019 there was an accident involving a stolen car produced by your company. The driver left the scene without a trace. The license plate of the car, which caused the accident, was faked and the Vehicle Identification Number (VIN) was removed. Since you work for the Federal Motor Transport Authority, the police asks for your help to find out where the vehicle with the engine code "K1DI2-103-1031-21" (corresponds to the engine ID number) was registered.**
 
-```{r}
-#
+In order to get the specific engine ID number, we filtered for it within the list of all vehicle components. Then, comparing this specific engine ID with the vehicle registration list results in the exact location of the stolen car. 
 
+```{r}
+#Filtering for the specific engine motor ID within all vehicle components
 id_motor_k1di2_103_1031_21 <- bind_rows(bestandteile_fahrzeuge_oem1_typ11, bestandteile_fahrzeuge_oem1_typ12, bestandteile_fahrzeuge_oem1_typ21, bestandteile_fahrzeuge_oem1_typ22)%>%
   select(ID_Motor, ID_Fahrzeug)%>%
     filter(ID_Motor=="K1DI2-103-1031-21")
 
-#
+#Joining vehicle registration list with the filtered motor id from above to get the exact location of the stolen car
+zulassungen_id_motor <- right_join(zulassungen_alle_fahrzeuge, id_motor_k1di2_103_1031_21, by=c("IDNummer"="ID_Fahrzeug"))
 
-zulassungen_id_motor <- left_join(zulassungen_alle_fahrzeuge, id_motor_k1di2_103_1031_21, by=c("IDNummer"="ID_Fahrzeug"))
-
-#
-
+#Storing the location of the registered vehicle with the specific engine number in a variable
 location <- zulassungen_id_motor$Gemeinden
 ```
 
