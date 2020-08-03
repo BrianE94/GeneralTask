@@ -55,6 +55,9 @@ bestandteile_fahrzeuge_oem1_typ21 <- read_delim("Data/Fahrzeug/Bestandteile_Fahr
   select(-X1)
 bestandteile_fahrzeuge_oem1_typ22 <- read_delim("Data/Fahrzeug/Bestandteile_Fahrzeuge_OEM2_Typ22.csv", delim=";")%>%
   select(-X1)
+
+bestandteile_komponente_k1be1 <- read_delim("Data/Komponente/Bestandteile_Komponente_K1BE1.csv", delim=";")%>%
+  select(-X1)
 ```
 
 ### Step 3: Tidy data 
@@ -157,13 +160,30 @@ The typical data base structure is called relational database system.
 
 **How many of the parts T4 ended up in vehicles registered in the city of Dortmund?**
 
-
+In order to find the parts T4 which ended up in vehicles registered in the city of Dortmund, we filtered the cars according to this municipality. 
+Then we linked all components that have been installed in vehicles together in one table. Furthermore, we joined both tables combining all registered vehicles in Dortmund with the engine component. Finally, we filtered for all engines K1BE1, which all include the T4 part, that are also assembled in vehicles registered in Dortmund. 
 
 ```{r}
+# At first, we filter for all the vehicles registered in Dortmund.
+
 zulassungen_dortmund <- zulassungen_alle_fahrzeuge %>%
   filter(Gemeinden=="DORTMUND")
 
+# After filtering the registered vehicles in the city of Dortmund, we select the car "IDNummer" within all the produced vehicles and the "ID_Motor" because T4 is part of the engine. 
+
+bestandteile_fahrzeuge_alle <- bind_rows(bestandteile_fahrzeuge_oem1_typ11, bestandteile_fahrzeuge_oem1_typ12, bestandteile_fahrzeuge_oem1_typ21, bestandteile_fahrzeuge_oem1_typ22) %>%
+  select(ID_Motor, ID_Fahrzeug)
+
+# Joining all registered vehicles in Dortmund with the component engine list
+
+zulassungen_dortmund_bestandteile_fahrzeuge_alle <- inner_join(zulassungen_dortmund, bestandteile_fahrzeuge_alle, by=c("IDNummer" = "ID_Fahrzeug"))
+
+# T4 only appears to be a part of the component engine K1BE1.
+
+t4_bestandteile_fahrzeuge_alle_dortmund <- inner_join(bestandteile_komponente_k1be1, zulassungen_dortmund_bestandteile_fahrzeuge_alle, by = c("ID_K1BE1" = "ID_Motor"))
 ```
+
+In total `r nrow(t4_bestandteile_fahrzeuge_alle_dortmund)` T4 parts ended up in vehicles registered in the city of Dortmund. 
 
 # Task 4
 
