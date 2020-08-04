@@ -16,33 +16,15 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ### Step 1: Installing packages and loading libraries
 
-If-function is necessary, otherwise error messages would pop up. The "dplyr" and "fitdistrplus" packages are in conflict regarding the "select" function. To avoid emerging error messages, we further specified the "dplyr" "select" function. 
+The "dplyr" and "fitdistrplus" packages are in conflict regarding the "select" function. To avoid emerging error messages, we further specified the "dplyr" "select" function. 
 
-```{r, message=FALSE, warning=FALSE}
-if(!require(readr)){
-  install.packages("readr")
+```{r}
+if(!require(install.load)){
+  install.packages("install.load")
 }
-library(readr)
+library(install.load)
 
-if(!require(magrittr)){
-  install.packages("magrittr")
-}
-library(magrittr)
-
-if(!require(dplyr)){
-  install.packages("dplyr")
-}
-library(dplyr)
-
-if(!require(plotly)){
-  install.packages("plotly")
-}
-library(plotly)
-
-if(!require(fitdistrplus)){
-  install.packages("fitdistrplus")
-}
-library(fitdistrplus)
+install_load("readr", "magrittr", "dplyr", "plotly", "fitdistrplus")
 
 select <- dplyr::select
 ```
@@ -116,7 +98,7 @@ shapiro.test(sample(verzugstage, 5000))
 
 Furthermore, we conducted the Shapiro-Wilk normality test with a random sample of size 5000 of the logistics delay vector "verzugstage" (this is due to the limitation of the R function). With p=2.2e-16 (almost zero percent) probability we would be wrong that it is **not** a normal distribution.
 
-Thus, it is necessary to find out which distribution model fits the data best. For this purpose, a Cullen and Frey graph is plotted. For reference, check this [paper](https://cran.r-project.org/web/packages/fitdistrplus/vignettes/paper2JSS.pdf).
+Thus, it is necessary to find out which distribution model fits the data best. For this purpose, a Cullen and Frey graph is plotted. For reference, check this [research paper](https://cran.r-project.org/web/packages/fitdistrplus/vignettes/paper2JSS.pdf) by Delignette-Muller, M. et al. (2020).
 
 ```{r}
 # Cullen and Frey graph: Skewness-kurtosis plot
@@ -129,13 +111,21 @@ The skewness-kurtosis plot suggests a lognormal, gamma or Weibull distribution. 
 # Fit of distributions by maximum likelihood estimation
 fw <- fitdist(verzugstage, "weibull")
 fg <- fitdist(verzugstage, "gamma")
-fln <- fitdist(verzugstage, "lognormal")
+fln <- fitdist(verzugstage, "lnorm")
 
-denscomp(list(fw, fg, fln), legendtext=plot.legend) # Density plot
-qqcomp(list(fw, fg, fln), legendtext=plot.legend) # Q-Q plot
-cdfcomp(list(fw, fg, fln), legendtext=plot.legend) # Empirical and theoretical cumulative density function
-ppcomp(list(fw, fg, fln), legendtext=plot.legend) # P-P plot
+# Density plot
+denscomp(list(fw, fg, fln), legendtext=c("Weibull", "Gamma", "Lognormal"))
+# Q-Q plot
+qqcomp(list(fw, fg, fln), legendtext=c("Weibull", "Gamma", "Lognormal")) 
+# Empirical and theoretical cumulative density function (CDF plot)
+cdfcomp(list(fw, fg, fln), legendtext=c("Weibull", "Gamma", "Lognormal")) 
+# Empirical and theoretical probability P-P plot
+ppcomp(list(fw, fg, fln), legendtext=c("Weibull", "Gamma", "Lognormal")) 
 ```
+
+The density plot and CDF plot suggest that the Lognormal distribution function is more likely to fit the data distribution of logistics delay than the Gamma or Weibull distribution, since both plots are considered to be the classical goodness-of-fit plots (Delignette-Muller, M. et al, 2020). 
+
+The Q-Q plot and P-P plot emphasize the lack-of-fit at the distribution tail respectively center, which means Weibull and Gamma distribution functions are less considered to fit the data distribution of logistics delay (Delignette-Muller, M. et al, 2020).
 
 ### Subtask b
 **What is the minimum/maximum time between delivering and receiving goods?**
