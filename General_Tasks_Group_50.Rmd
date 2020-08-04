@@ -1,7 +1,7 @@
 ---
 title: "General_Tasks_Group_50"
 author: "Long Dinh, Jonas Rieger, André Düding, Brian Eiffert, Vanessa Schweitzer"
-date: "SoSe 2020, 31/07/2020"
+date: "SoSe 2020, 04/08/2020"
 output: 
   html_document:
     theme: paper
@@ -16,7 +16,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ### Step 1: Installing packages and loading libraries
 
-If-function is necessary, otherwise error messages would pop up.
+If-function is necessary, otherwise error messages would pop up. The "dplyr" and "fitdistrplus" packages are in conflict regarding the "select" function. To avoid emerging error messages, we further specified the "dplyr" "select" function. 
+
 ```{r, message=FALSE, warning=FALSE}
 if(!require(readr)){
   install.packages("readr")
@@ -37,11 +38,19 @@ if(!require(plotly)){
   install.packages("plotly")
 }
 library(plotly)
+
+if(!require(fitdistrplus)){
+  install.packages("fitdistrplus")
+}
+library(fitdistrplus)
+
+select <- dplyr::select
 ```
 
 ### Step 2: Import data 
 
 All necessary CSV files are going to be imported. Note that the first column of most CSV file imports need to be removed to get uniform datasets. 
+
 ```{r, message=FALSE, warning=FALSE} 
 komponente_k7 <- read_delim("Data/Logistikverzug/Komponente_K7.csv", delim=";")%>%
   select(-X1)
@@ -77,28 +86,58 @@ verzugstage <- logistics_delay$Logistikverzug
 
 glimpse(logistics_delay)
 head(logistics_delay)
+glimpse(verzugstage)
 head(verzugstage)
 ```
 
-#### Subtask a
+### Subtask a
 **How is the logistics delay distributed? Proof your selection by statistical tests and briefly describe your approach.**
 
-In order to get an overview about the data distribution of logistics delay, we visualize the data by plotting a histogram.
+To understand the data distribution of logistics delay, we visualized the data by plotting a histogram.
 
 ```{r}
-hist(verzugstage, breaks=10, main="Histogram of Logistics Delay", xlab="Logistics delay in days", xlim=c(6,18))
+hist(verzugstage, breaks=10, main="Histogram of Logistics Delay", xlab="Logistics delay in days")
 ```
 
-The histogram suggests a normal distribution. Q-Q plots are used to verify this assumption. For reference, check this [website](https://data.library.virginia.edu/understanding-q-q-plots/#). 
+The histogram suggests a normal distribution. Q-Q plots are used to visually verify this assumption, while the Shapiro-Wilk normality test is used for the mathematical testing. For reference, check [University of Virginia](https://data.library.virginia.edu/understanding-q-q-plots/#), the specific [R Manual](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/shapiro.test.html) and [TU Dresden](https://wwwpub.zih.tu-dresden.de/~petzoldt/elements_de.pdf).
 
 ```{r}
+# Visual testing of normal distribution with Q-Q plots
 qqnorm(verzugstage)  
-qqline(verzugstage)
+qqline(verzugstage, col="red")
 ```
 
-The normal Q-Q plot shows that the points are not on a straight line. Therefore, both sets of quantiles are not normal distributed. It is necessary to find out which distribution model fits the data best. 
+The normal Q-Q plot shows that the points are not on a straight line. Therefore, both sets of quantiles are not normally distributed. 
 
-#### Subtask b
+```{r}
+# Mathematical testing of normal distribution with the Shapiro-Wilk normality test
+shapiro.test(sample(verzugstage, 5000))
+```
+
+Furthermore, we conducted the Shapiro-Wilk normality test with a random sample of size 5000 of the logistics delay vector "verzugstage" (this is due to the limitation of the R function). With p=2.2e-16 (almost zero percent) probability we would be wrong that it is **not** a normal distribution.
+
+Thus, it is necessary to find out which distribution model fits the data best. For this purpose, a Cullen and Frey graph is plotted. For reference, check this [paper](https://cran.r-project.org/web/packages/fitdistrplus/vignettes/paper2JSS.pdf).
+
+```{r}
+# Cullen and Frey graph: Skewness-kurtosis plot
+descdist(verzugstage)
+```
+
+The skewness-kurtosis plot suggests a lognormal, gamma or Weibull distribution. Following the research paper linked above, four goodness-of-fit plots for the three mentioned distributions are plotted provided by functions "denscomp", "qqcomp", "cdfcomp" and "ppcomp". 
+
+```{r}
+# Fit of distributions by maximum likelihood estimation
+fw <- fitdist(verzugstage, "weibull")
+fg <- fitdist(verzugstage, "gamma")
+fln <- fitdist(verzugstage, "lognormal")
+
+denscomp(list(fw, fg, fln), legendtext=plot.legend) # Density plot
+qqcomp(list(fw, fg, fln), legendtext=plot.legend) # Q-Q plot
+cdfcomp(list(fw, fg, fln), legendtext=plot.legend) # Empirical and theoretical cumulative density function
+ppcomp(list(fw, fg, fln), legendtext=plot.legend) # P-P plot
+```
+
+### Subtask b
 **What is the minimum/maximum time between delivering and receiving goods?**
 
 ```{r}
@@ -107,18 +146,20 @@ max_logistics_delay
 min_logistics_delay <- min(verzugstage)
 min_logistics_delay
 ```
+
 The minimum/maximum time between delivering and receiving goods are the minimum/maximum days of logistics delay. Hence, the minimum time is `r min_logistics_delay` days and the maximum time is `r max_logistics_delay` days.
 
-#### Subtask c
+### Subtask c
 **Determine the mean of the logistics delay.**
 
 ```{r}
 mean_logistics_delay <- round(mean(verzugstage),1)
 mean_logistics_delay
 ```
+
 The mean of the logistics delay is `r mean_logistics_delay` days.
 
-#### Subtask d
+### Subtask d
 **Visualize the distribution in an appropriate way by displaying a histogram and the density function using the package plotly.**
 
 Histogram visualization according to [plotly.com](https://plotly.com/r/histograms/).
@@ -137,12 +178,12 @@ fig
 
 # Task 2
 
-#### Subtask a
+### Subtask a
 **Why does it make sense to store the available data in separate files instead of saving everything in a huge table? Name at least four benefits.**
 
 The benefits are the reduction of the loading time of the imported data and the reduction of the high working memory consumption. It also avoids redundancy in big tables, as usually some values appear several times in the table/spreadsheet. The search time (duration) for exact figures/numbers in the table is therefore also reduced, as it is itself smaller and more compact.
 
-#### Subtask b
+### Subtask b
 **The available tables represent a typical data base structure. How is it called?**
 
 The typical data base structure is called relational database system. 
@@ -162,7 +203,7 @@ zulassungen_dortmund <- zulassungen_alle_fahrzeuge %>%
 bestandteile_fahrzeuge_alle <- bind_rows(bestandteile_fahrzeuge_oem1_typ11, bestandteile_fahrzeuge_oem1_typ12, bestandteile_fahrzeuge_oem1_typ21, bestandteile_fahrzeuge_oem1_typ22) %>%
   select(ID_Motor, ID_Fahrzeug)
 
-# Joining all registered vehicles in Dortmund with the component engine list
+# Comparing all registered vehicles in Dortmund with the component engine list
 zulassungen_dortmund_bestandteile_fahrzeuge_alle <- inner_join(zulassungen_dortmund, bestandteile_fahrzeuge_alle, by=c("IDNummer" = "ID_Fahrzeug"))
 
 # T4 only appears to be a part of the component engine K1BE1.
@@ -180,6 +221,7 @@ To get an overview about the data structure and the data types of the attributes
 ```{r, message=FALSE, warning=FALSE}
 str(zulassungen_alle_fahrzeuge)
 ```
+
 The data types of the attributes of the registration table are as following:
 
 "X1" = `r class(zulassungen_alle_fahrzeuge$X1)`,
@@ -188,7 +230,8 @@ The data types of the attributes of the registration table are as following:
 "Zulassung" = `r class(zulassungen_alle_fahrzeuge$Zulassung)`.
 
 # Task 5
-#### Subtask a
+
+### Subtask a
 **You want to publish your application. Why does it make sense to store the data sets in a database on a server?** 
 
 A server is available 24/7.
@@ -197,7 +240,7 @@ A server usually has hardware-based a lot more computing power than local comput
 
 Apart from the computing power, servers usually also provide more storage than local computers. The necessary data can have a larger size. Also redundancies can be installed as an additional safety measure. 
 
-#### Subtask b
+### Subtask b
 **Why is it not recommended to store the data sets on your personal computer? Name at least three points per question.**
 
 It is not recommended to store the data sets on your computer because of the limited accessibility it entails. Your personal device is (supposely) not available 24/7 per day. 
@@ -225,4 +268,4 @@ zulassungen_id_motor <- right_join(zulassungen_alle_fahrzeuge, id_motor_k1di2_10
 location <- zulassungen_id_motor$Gemeinden
 ```
 
-The vehicle with the engine code/ID number "K1DI2-103-1031-21" was registered in `r location`.
+The vehicle with the engine code (ID number) "K1DI2-103-1031-21" was registered in `r location`.
