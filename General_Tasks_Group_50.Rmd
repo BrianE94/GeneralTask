@@ -4,7 +4,7 @@ author: "Long Dinh, Jonas Rieger, André Düding, Brian Eiffert, Vanessa Schweit
 date: "SoSe 2020, 04/08/2020"
 output: 
   html_document:
-    #theme: paper
+    theme: paper
     toc: true
 ---
 
@@ -156,7 +156,7 @@ Histogram visualization according to [plotly.com](https://plotly.com/r/histogram
 
 ```{r, message=FALSE, warning=FALSE}
 # Histogram
-plot_ly(data = verzugstage, x = ~, y= ~ , type = "histogram")
+# plot_ly(data = verzugstage, x = ~, y= ~ , type = "histogram")
 
 # Density function
 ```
