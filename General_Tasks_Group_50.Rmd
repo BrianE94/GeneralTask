@@ -4,7 +4,7 @@ author: "Long Dinh, Jonas Rieger, André Düding, Brian Eiffert, Vanessa Schweit
 date: "SoSe 2020, 04/08/2020"
 output: 
   html_document:
-    #theme: paper
+    theme: paper
     toc: true
 ---
 
@@ -18,7 +18,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 The "dplyr" and "fitdistrplus" packages are in conflict regarding the "select" function. To avoid emerging error messages, we further specified the "dplyr" "select" function. 
 
-```{r}
+```{r, message = FALSE, warning = FALSE}
 if(!require(install.load)){
   install.packages("install.load", repos = "http://cran.us.r-project.org")
   library(install.load)
@@ -156,7 +156,7 @@ Histogram visualization according to [plotly.com](https://plotly.com/r/histogram
 
 ```{r, message=FALSE, warning=FALSE}
 # Histogram
-plot_ly(data = verzugstage, x = ~, y= ~ , type = "histogram")
+#plot_ly(data = verzugstage, x = ~, y= ~ , type = "histogram")
 
 # Density function
 ```
