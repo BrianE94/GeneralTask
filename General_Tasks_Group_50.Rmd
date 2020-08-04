@@ -4,7 +4,7 @@ author: "Long Dinh, Jonas Rieger, André Düding, Brian Eiffert, Vanessa Schweit
 date: "SoSe 2020, 04/08/2020"
 output: 
   html_document:
-    theme: paper
+    #theme: paper
     toc: true
 ---
 
@@ -20,9 +20,9 @@ The "dplyr" and "fitdistrplus" packages are in conflict regarding the "select" f
 
 ```{r}
 if(!require(install.load)){
-  install.packages("install.load")
+  install.packages("install.load", repos = "http://cran.us.r-project.org")
+  library(install.load)
 }
-library(install.load)
 
 install_load("readr", "magrittr", "dplyr", "plotly", "fitdistrplus")
 
@@ -155,15 +155,10 @@ The mean of the logistics delay is `r mean_logistics_delay` days.
 Histogram visualization according to [plotly.com](https://plotly.com/r/histograms/).
 
 ```{r, message=FALSE, warning=FALSE}
+# Histogram
+plot_ly(data = verzugstage, x = ~, y= ~ , type = "histogram")
 
-fig <- plot_ly(
-  x = ~verzugstage, type = "histogram"
-)
-
-fig
-
-#Verteilung muss erst herausgefunden werden!
-# test
+# Density function
 ```
 
 # Task 2
