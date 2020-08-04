@@ -18,7 +18,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 The "dplyr" and "fitdistrplus" packages are in conflict regarding the "select" function. To avoid emerging error messages, we further specified the "dplyr" "select" function. 
 
-```{r}
+```{r, message = FALSE, warning = FALSE}
 if(!require(install.load)){
   install.packages("install.load", repos = "http://cran.us.r-project.org")
   library(install.load)
@@ -156,7 +156,11 @@ Histogram visualization according to [plotly.com](https://plotly.com/r/histogram
 
 ```{r, message=FALSE, warning=FALSE}
 # Histogram
+<<<<<<< HEAD
 # plot_ly(data = verzugstage, x = ~, y= ~ , type = "histogram")
+=======
+#plot_ly(data = verzugstage, x = ~, y= ~ , type = "histogram")
+>>>>>>> 5bfc8e336635e30f8584d264171b38e647f1ae77
 
 # Density function
 ```
