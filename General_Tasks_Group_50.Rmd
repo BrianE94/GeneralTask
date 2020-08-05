@@ -156,12 +156,7 @@ Histogram visualization according to [plotly.com](https://plotly.com/r/histogram
 
 ```{r, message=FALSE, warning=FALSE}
 # Histogram
-<<<<<<< HEAD
 # plot_ly(data = verzugstage, x = ~, y= ~ , type = "histogram")
-=======
-#plot_ly(data = verzugstage, x = ~, y= ~ , type = "histogram")
->>>>>>> 5bfc8e336635e30f8584d264171b38e647f1ae77
-
 # Density function
 ```
 
