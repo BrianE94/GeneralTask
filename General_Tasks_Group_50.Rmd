@@ -252,4 +252,4 @@ zulassungen_id_motor <- right_join(zulassungen_alle_fahrzeuge, id_motor_k1di2_10
 location <- zulassungen_id_motor$Gemeinden
 ```
 
-The vehicle with the engine code (ID number) "K1DI2-103-1031-21" was registered in `r location`.
+The vehicle with the engine code (ID number) "K1DI2-103-1031-21" was registered in `r location`. 
