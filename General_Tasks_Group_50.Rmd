@@ -137,7 +137,7 @@ min_logistics_delay <- min(verzugstage)
 min_logistics_delay
 ```
 
-The minimum/maximum time between delivering and receiving goods are the minimum/maximum days of logistics delay. Hence, the minimum time is `r min_logistics_delay` days and the maximum time is `r max_logistics_delay` days.
+The minimum/maximum time between delivering and receiving goods are the minimum/maximum days of logistics delay. Hence, the minimum time is **`r min_logistics_delay` days** and the maximum time is **`r max_logistics_delay` days**.
 
 ### Subtask c
 **Determine the mean of the logistics delay.**
@@ -147,7 +147,7 @@ mean_logistics_delay <- round(mean(verzugstage),1)
 mean_logistics_delay
 ```
 
-The mean of the logistics delay is `r mean_logistics_delay` days.
+The mean of the logistics delay is **`r mean_logistics_delay` days**.
 
 ### Subtask d
 **Visualize the distribution in an appropriate way by displaying a histogram and the density function using the package plotly.**
@@ -179,7 +179,7 @@ fit <- density(verzugstage, bw=0.5)
 
 fig2 <- plot_ly()%>%
   add_lines(x=~fit$x, y=~fit$y, color="orange", fill="tozeroy")%>%
-  layout(title="Density Function of Logistics Delay", xaxis=list(title="Logistics Delay (days"), yaxis=list(title="Density"))
+  layout(title="Density Function of Logistics Delay", xaxis=list(title="Logistics Delay (days)"), yaxis=list(title="Density"))
 
 fig2
 ```
@@ -218,7 +218,7 @@ zulassungen_dortmund_bestandteile_fahrzeuge_alle <- inner_join(zulassungen_dortm
 t4_bestandteile_fahrzeuge_alle_dortmund <- inner_join(bestandteile_komponente_k1be1, zulassungen_dortmund_bestandteile_fahrzeuge_alle, by = c("ID_K1BE1" = "ID_Motor"))
 ```
 
-In total, `r nrow(t4_bestandteile_fahrzeuge_alle_dortmund)` T4 parts ended up in vehicles registered in the city of Dortmund. 
+In total, **`r nrow(t4_bestandteile_fahrzeuge_alle_dortmund)`** T4 parts ended up in vehicles registered in the city of Dortmund. 
 
 # Task 4
 
@@ -232,10 +232,10 @@ str(zulassungen_alle_fahrzeuge)
 
 The data types of the attributes of the registration table are as following:
 
-"X1" = `r class(zulassungen_alle_fahrzeuge$X1)`,
-"IDNummer" = `r class(zulassungen_alle_fahrzeuge$IDNummer)`,
-"Gemeinden" = `r class(zulassungen_alle_fahrzeuge$Gemeinden)`,
-"Zulassung" = `r class(zulassungen_alle_fahrzeuge$Zulassung)`.
+"X1" = **`r class(zulassungen_alle_fahrzeuge$X1)`**,
+"IDNummer" = **`r class(zulassungen_alle_fahrzeuge$IDNummer)`**,
+"Gemeinden" = **`r class(zulassungen_alle_fahrzeuge$Gemeinden)`**,
+"Zulassung" = **`r class(zulassungen_alle_fahrzeuge$Zulassung)`**.
 
 # Task 5
 
@@ -276,4 +276,4 @@ zulassungen_id_motor <- right_join(zulassungen_alle_fahrzeuge, id_motor_k1di2_10
 location <- zulassungen_id_motor$Gemeinden
 ```
 
-The vehicle with the engine code (ID number) "K1DI2-103-1031-21" was registered in `r location`.
+The vehicle with the engine code (ID number) "K1DI2-103-1031-21" was registered in **`r location`**.
