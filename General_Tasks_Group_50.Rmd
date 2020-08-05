@@ -181,6 +181,15 @@ fig1
  # layout(xaxis = list(title = "abc"), yaxis = list(title = "density"))
 
 #fig2
+
+#density_f <- density(logistics_delay, kernel = 'gaussian', bw = 0.1)
+
+#fig2 <- plot_ly()%>%
+#  add_lines(x = density_f$x, y = density_f$y, line = list(color = 'olivedrab'))
+
+#fig2
+ 
+
 ```
 
 # Task 2
