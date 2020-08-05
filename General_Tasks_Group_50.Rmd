@@ -262,7 +262,7 @@ Apart from the computing power, servers usually also provide more storage than l
 
 It is not recommended to store the data sets on your computer because of the limited accessibility it entails. Your personal device is (supposely) not available 24/7 per day. 
 
-Furthermore, external access from other users are not possible. No application can be run on other computers.
+Furthermore, external access from other users are not possible. No application can be run on other devices/computers.
 
 The amount of data combined with the data analysis require huge memory capacity. Local computers (depending on the hardware) might not be able to process it.
 
