@@ -1,7 +1,7 @@
 ---
 title: "General_Tasks_Group_50"
 author: "Long Dinh, Jonas Rieger, André Düding, Brian Eiffert, Vanessa Schweitzer"
-date: "SoSe 2020, 04/08/2020"
+date: "SoSe 2020, 05/08/2020"
 output: 
   html_document:
     theme: paper
@@ -77,13 +77,13 @@ head(verzugstage)
 
 To understand the data distribution of logistics delay, we visualized the data by plotting a histogram.
 
-```{r}
+```{r, fig.align="center"}
 hist(verzugstage, breaks=10, main="Histogram of Logistics Delay", xlab="Logistics delay in days")
 ```
 
 The histogram suggests a normal distribution. Q-Q plots are used to visually verify this assumption, while the Shapiro-Wilk normality test is used for the mathematical testing. For reference, check [University of Virginia](https://data.library.virginia.edu/understanding-q-q-plots/#), the specific [R Manual](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/shapiro.test.html) and [TU Dresden](https://wwwpub.zih.tu-dresden.de/~petzoldt/elements_de.pdf).
 
-```{r}
+```{r, fig.align="center"}
 # Visual testing of normal distribution with Q-Q plots
 qqnorm(verzugstage)  
 qqline(verzugstage, col="red")
@@ -100,14 +100,14 @@ Furthermore, we conducted the Shapiro-Wilk normality test with a random sample o
 
 Thus, it is necessary to find out which distribution model fits the data best. For this purpose, a Cullen and Frey graph is plotted. For reference, check this [research paper](https://cran.r-project.org/web/packages/fitdistrplus/vignettes/paper2JSS.pdf) by Delignette-Muller, M. et al. (2020).
 
-```{r}
+```{r, fig.align="center"}
 # Cullen and Frey graph: Skewness-kurtosis plot
 descdist(verzugstage)
 ```
 
 The skewness-kurtosis plot suggests a lognormal, gamma or Weibull distribution. Following the research paper linked above, four goodness-of-fit plots for the three mentioned distributions are plotted provided by functions "denscomp", "qqcomp", "cdfcomp" and "ppcomp". 
 
-```{r}
+```{r, fig.align="center"}
 # Fit of distributions by maximum likelihood estimation
 fw <- fitdist(verzugstage, "weibull")
 fg <- fitdist(verzugstage, "gamma")
@@ -152,35 +152,36 @@ The mean of the logistics delay is `r mean_logistics_delay` days.
 ### Subtask d
 **Visualize the distribution in an appropriate way by displaying a histogram and the density function using the package plotly.**
 
-Histogram visualization according to [plotly-r.com](https://plotly-r.com/overview.html#intro-plotly)
+Histogram visualization according to [plotly-r.com](https://plotly-r.com/overview.html#intro-plotly). Density plot visualization according to [Data Camp](https://learn.datacamp.com/courses/interactive-data-visualization-with-plotly-in-r).
 
-```{r, message=FALSE, warning=FALSE}
-
+```{r, message=FALSE, warning=FALSE, fig.align="center"}
 # Histogram of logistics delay 
 fig1 <- logistics_delay%>%
-  plot_ly(x = ~Logistikverzug, alpha = 0.8, nbinsx = 30) %>%
+  plot_ly(x = ~Logistikverzug, alpha = 0.7, nbinsx = 30) %>%
   add_histogram()%>%
   group_by(Logistikverzug)%>%
   summarize(n = n())%>%
+  layout(title="Histogram of Logistics Delay", 
+    xaxis=list(title="Logistics Delay (days)"), 
+    yaxis=list(title="Frequency")
+  )%>%
   add_text(
-    text = ~scales::comma(n), y = ~n, 
+    text = ~scales::comma(n),y= ~n,
     textposition = "top middle",
     cliponaxis = FALSE
-    #title = "Histogram of logistics delay"
   )%>%
   hide_legend()
 
 fig1 
 
-# Density
-#density_logistics_delay <- Density(logistics_delay$Logistikverzug)
+# Density function of logistics delay
+fit <- density(verzugstage, bw=0.5)
 
-#glimpse(density_logistics_delay)
+fig2 <- plot_ly()%>%
+  add_lines(x=~fit$x, y=~fit$y, color="orange", fill="tozeroy")%>%
+  layout(title="Density Function of Logistics Delay", xaxis=list(title="Logistics Delay (days"), yaxis=list(title="Density"))
 
-#fig2 <- plot_ly(x = ~density_logistics_delay, type = "scatter", mode = "lines", fill = 'tozeroy')%>%
- # layout(xaxis = list(title = "abc"), yaxis = list(title = "density"))
-
-#fig2
+fig2
 ```
 
 # Task 2
