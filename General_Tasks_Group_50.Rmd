@@ -155,9 +155,6 @@ The mean of the logistics delay is `r mean_logistics_delay` days.
 Histogram visualization according to [plotly-r.com](https://plotly-r.com/overview.html#intro-plotly)
 
 ```{r, message=FALSE, warning=FALSE}
-# Histogram
-# Density function
-# test long
 
 # Histogram of logistics delay 
 fig1 <- logistics_delay%>%
@@ -184,13 +181,6 @@ fig1
  # layout(xaxis = list(title = "abc"), yaxis = list(title = "density"))
 
 #fig2
-<<<<<<< HEAD
->>>>>>> 433b8850570e6f56f0bc0cba67ee42890a5587cf
-=======
-
-
-##test
->>>>>>> e2830de0a2d2aecdd4475c36c7c7d7ab2f891618
 ```
 
 # Task 2
@@ -285,4 +275,4 @@ zulassungen_id_motor <- right_join(zulassungen_alle_fahrzeuge, id_motor_k1di2_10
 location <- zulassungen_id_motor$Gemeinden
 ```
 
-The vehicle with the engine code (ID number) "K1DI2-103-1031-21" was registered in `r location`. 
+The vehicle with the engine code (ID number) "K1DI2-103-1031-21" was registered in `r location`.
