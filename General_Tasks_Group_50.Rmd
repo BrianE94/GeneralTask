@@ -152,12 +152,41 @@ The mean of the logistics delay is `r mean_logistics_delay` days.
 ### Subtask d
 **Visualize the distribution in an appropriate way by displaying a histogram and the density function using the package plotly.**
 
-Histogram visualization according to [plotly.com](https://plotly.com/r/histograms/).
+Histogram visualization according to [plotly-r.com](https://plotly-r.com/overview.html#intro-plotly)
 
 ```{r, message=FALSE, warning=FALSE}
+<<<<<<< HEAD
 # Histogram
 # plot_ly(data = verzugstage, x = ~, y= ~ , type = "histogram")
 # Density function
+=======
+
+# Histogram of logistics delay 
+fig1 <- logistics_delay%>%
+  plot_ly(x = ~Logistikverzug, alpha = 0.8, nbinsx = 30) %>%
+  add_histogram()%>%
+  group_by(Logistikverzug)%>%
+  summarize(n = n())%>%
+  add_text(
+    text = ~scales::comma(n), y = ~n, 
+    textposition = "top middle",
+    cliponaxis = FALSE
+    #title = "Histogram of logistics delay"
+  )%>%
+  hide_legend()
+
+fig1 
+
+# Density
+#density_logistics_delay <- Density(logistics_delay$Logistikverzug)
+
+#glimpse(density_logistics_delay)
+
+#fig2 <- plot_ly(x = ~density_logistics_delay, type = "scatter", mode = "lines", fill = 'tozeroy')%>%
+ # layout(xaxis = list(title = "abc"), yaxis = list(title = "density"))
+
+#fig2
+>>>>>>> 433b8850570e6f56f0bc0cba67ee42890a5587cf
 ```
 
 # Task 2
